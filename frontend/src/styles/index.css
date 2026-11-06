@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Agent 全局样式 —— 暗色设计系统 + 通用组件层
+   设计语言：
+   四级黑底 × 酸性荧光绿，低饱和灰阶分层
+   ============================================================ */
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+  body {
+    @apply bg-void font-sans text-mist antialiased;
+  }
+  /* 细滚动条：暗色系必备，避免默认亮色滚动条破坏氛围 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #383b3f transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-smoke;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  /* 选区颜色用主色，强化品牌记忆 */
+  ::selection {
+    @apply bg-lime/80 text-void;
+  }
+}
+
+@layer components {
+  /* 页面容器：统一左右留白与最大宽度 */
+  .page-container {
+    @apply mx-auto w-full max-w-6xl px-6 py-8;
+  }
+  /* 面板卡片：obsidian 底 + 细描边，hover 微亮 */
+  .panel {
+    @apply rounded-xl border border-smoke/60 bg-obsidian;
+  }
+  /* 主按钮：荧光绿底黑字，hover 提亮（配合 GSAP 有轻微上浮） */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-void transition-all duration-200 ease-out-expo hover:brightness-110 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+  }
+  /* 次按钮：描边幽灵样式 */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-smoke px-4 py-2 text-sm text-mist transition-all duration-200 ease-out-expo hover:border-fog hover:text-bone active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+  }
+  /* 危险按钮：珊瑚红描边 */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-coral/40 px-4 py-2 text-sm text-coral transition-all duration-200 ease-out-expo hover:bg-coral/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40;
+  }
+  /* 输入框基类 */
+  .field {
+    @apply w-full rounded-lg border border-smoke bg-graphite px-3 py-2 text-sm text-bone placeholder:text-ash outline-none transition-colors duration-200 focus:border-lime/60 disabled:opacity-50;
+  }
+  /* 表单标签 */
+  .field-label {
+    @apply mb-1.5 block text-xs font-medium text-fog;
+  }
+  /* 分节标题：小型大写风格 */
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-widest text-ash;
+  }
+  /* 代码块 */
+  .code-block {
+    @apply overflow-x-auto rounded-lg border border-smoke/60 bg-void p-3 font-mono text-xs leading-relaxed text-mist;
+  }
+}
+
+@layer utilities {
+  /* 主色文字辉光：用于 logo 与关键数字 */
+  .text-glow {
+    text-shadow: 0 0 18px rgba(228, 242, 34, 0.45);
+  }
+  /* 打字机光标 */
+  .caret::after {
+    content: '▍';
+    @apply ml-0.5 animate-blink-caret text-lime;
+  }
+}

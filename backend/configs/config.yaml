@@ -1,0 +1,102 @@
+# Agent 默认配置
+# 覆盖优先级：环境变量(AGENT_ 前缀) > config.{env}.yaml > config.yaml
+# 环境变量映射示例：http.port -> AGENT_HTTP__PORT
+
+env: dev
+http:
+  port: 8080
+  shutdown_timeout: 10s
+
+log:
+  level: info       # debug/info/warn/error
+  format: json      # json/console
+
+pg:
+  dsn: postgres://agent:agent123@localhost:5432/agent?sslmode=disable&search_path=public
+  max_open_conns: 50
+  max_idle_conns: 10
+  conn_max_lifetime: 30m
+
+redis:
+  addr: 127.0.0.1:6380  # 与 docker-compose 的 6380:6379 映射一致
+  password: ""
+  db: 0
+
+milvus:
+  mode: remote          # remote / lite
+  addr: 127.0.0.1:19530
+  lite_path: ./data/milvus_lite.db
+  dim: 1024             # bge-m3 向量维度
+
+minio:
+  endpoint: 127.0.0.1:9000
+  access_key: minioadmin
+  secret_key: minioadmin
+  bucket: agent-docs
+  use_ssl: false
+
+jwt:
+  secret: change-me-in-prod      # 生产务必更换
+  access_ttl: 15m
+  refresh_ttl: 168h
+
+secret_key: change-me-32-bytes!!  # 敏感配置 AES-GCM 主密钥(16/24/32字节)
+
+llm:
+  # 并发与熔断
+  max_conns_per_provider: 16
+  circuit_error_rate: 0.3        # 错误率熔断阈值
+  circuit_open: 60s              # 熔断持续时间
+  retry_max: 3                   # 指数退避重试次数
+  stream_first_token_timeout: 30s
+  local: false                   # true 时使用 ollama 本地模型跑通全流程
+  default_chat: deepseek-chat
+  default_embedding: bge-m3
+
+rag:
+  chunk_size: 512
+  chunk_overlap: 64
+  dense_top_k: 25
+  sparse_top_k: 25
+  fused_top_n: 15
+  final_top_k: 5
+  rrf_k: 60
+  score_threshold: 0.35
+  batch_embed: 64
+
+agent:
+  max_iterations: 10
+  step_timeout: 60s
+  run_timeout: 5m
+  memory_extract_every: 6        # 每 N 条消息触发一次长期记忆抽取
+
+worker:
+  concurrency: 4
+  max_retry: 3
+  claim_interval: 30s            # XAUTOCLAIM 收尸间隔
+
+sandbox:
+  enabled: false                 # 默认关闭；需要代码执行沙箱时开启
+  image: agent/sandbox:latest
+  memory: 512m
+  cpus: "1"
+  timeout: 30s
+  pool_size: 2
+
+observability:
+  otel_endpoint: http://127.0.0.1:4318   # Jaeger OTLP HTTP
+  otel_enabled: true
+  metrics_enabled: true
+
+mcp:
+  enabled: true
+  health_interval: 60s
+
+a2a:
+  enabled: true
+  port: "8082"          # 对外 A2A 端点（/.well-known/agent.json + /a2a）
+  name: Agent
+  desc: 通用智能体平台：ReAct / RAG / 多智能体协作
+
+search:
+  searxng_url: http://127.0.0.1:8081/search

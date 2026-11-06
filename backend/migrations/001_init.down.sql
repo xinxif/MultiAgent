@@ -1,0 +1,25 @@
+-- 回滚初始表结构
+DROP TABLE IF EXISTS sandbox_executions;
+DROP TABLE IF EXISTS usage_logs;
+DROP TABLE IF EXISTS feedbacks;
+DROP TABLE IF EXISTS eval_results;
+DROP TABLE IF EXISTS eval_runs;
+DROP TABLE IF EXISTS eval_cases;
+DROP TABLE IF EXISTS eval_datasets;
+DROP TABLE IF EXISTS workflow_step_runs;
+DROP TABLE IF EXISTS workflow_runs;
+DROP TABLE IF EXISTS workflows;
+DROP TABLE IF EXISTS prompts;
+DROP TABLE IF EXISTS memories;
+DROP TABLE IF EXISTS document_chunks;
+DROP TABLE IF EXISTS documents;
+DROP TABLE IF EXISTS knowledge_bases;
+DROP TABLE IF EXISTS a2a_agents;
+DROP TABLE IF EXISTS mcp_servers;
+DROP TABLE IF EXISTS tools;
+DROP TABLE IF EXISTS agents;
+DROP TABLE IF EXISTS model_configs;
+DROP TABLE IF EXISTS model_providers;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;

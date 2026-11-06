@@ -1,0 +1,17 @@
+# Prometheus 抓取配置：采集 Agent 后端指标（/metrics）
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # 后端运行在宿主机（go run / make run），容器内通过 host.docker.internal 访问
+  - job_name: agent
+    metrics_path: /metrics
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ["host.docker.internal:8080"]
+
+  # Prometheus 自监控
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]

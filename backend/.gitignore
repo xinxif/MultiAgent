@@ -1,0 +1,26 @@
+# bin
+/bin/
+*.exe
+
+# local env & secrets
+*.local.yaml
+.env
+.env.*
+
+# logs
+*.log
+
+# test & coverage
+coverage.out
+coverage.html
+
+# os
+.DS_Store
+
+# ide
+.idea/
+.vscode/
+
+# milvus lite local data
+*.db
+data/
